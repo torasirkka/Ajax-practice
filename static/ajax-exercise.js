@@ -23,7 +23,7 @@ function showWeather(evt) {
     evt.preventDefault(); // prevent default behavior(loading HTML page) of event object
 
     let url = "/weather.json";
-    let formData = {"test": $("#zipcode-field").val()}; // create dictionary with user form input zipcode as value
+    let formData = {"zipcode": $("#zipcode-field").val()}; // create dictionary with user form input zipcode as value
     console.log(formData)
     // console.log(weather_info)
     $.get(url, (object) => {
