@@ -4,9 +4,9 @@
 // PART 1: SHOW A FORTUNE
 
 function showFortune(evt) {
-    console.log("inside showFortune function")
+    // console.log("inside showFortune function")
     $.get('/fortune', (response) => {
-        console.log("in the jQuery call to /fortune route")
+        // console.log("in the jQuery call to /fortune route")
     $('#fortune-text').html(response);
     });
 }
@@ -20,16 +20,24 @@ $('#get-fortune-button').on('click', showFortune);
 // PART 2: SHOW WEATHER
 
 function showWeather(evt) {
-    evt.preventDefault();
+    evt.preventDefault(); // prevent default behavior(loading HTML page) of event object
 
     let url = "/weather.json";
-    let formData = {"zipcode": $("#zipcode-field").val()};
-
+    let formData = {"test": $("#zipcode-field").val()}; // create dictionary with user form input zipcode as value
+    console.log(formData)
+    // console.log(weather_info)
+    $.get(url, (object) => {
+    $('#weather-info').text(`Weather today: ${object['forecast']}`);
+    });
 
     // TODO: request weather with that URL and show the forecast in #weather-info
+    // decide which kind of AJAX call to make
+    // extract temperature from JSON object returned from /weather.json
+    
+
 }
 
-$("#weather-form").on('submit', showWeather);
+$("#weather-form").on('submit', showWeather); // "listen" for event at HTML element and execute function on event
 
 
 
