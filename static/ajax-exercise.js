@@ -14,43 +14,46 @@ function showFortune(evt) {
 $('#get-fortune-button').on('click', showFortune);
 
 
-
-
-
 // PART 2: SHOW WEATHER
 
 function showWeather(evt) {
     evt.preventDefault(); // prevent default behavior(loading HTML page) of event object
 
-    let url = "/weather.json";
-    let formData = {"zipcode": $("#zipcode-field").val()}; // create dictionary with user form input zipcode as value
-    console.log(formData)
-    // console.log(weather_info)
-    $.get(url, (object) => {
+    let url = '/weather.json';
+    let formData = {'zipcode': $('#zipcode-field').val()}; // create dictionary with user form input zipcode as value
+    
+    $.get(url, formData, (object) => {
     $('#weather-info').text(`Weather today: ${object['forecast']}`);
     });
-
-    // TODO: request weather with that URL and show the forecast in #weather-info
-    // decide which kind of AJAX call to make
-    // extract temperature from JSON object returned from /weather.json
-    
-
 }
 
-$("#weather-form").on('submit', showWeather); // "listen" for event at HTML element and execute function on event
-
-
+$('#weather-form').on('submit', showWeather); // "listen" for event at HTML element and execute function on event
 
 
 // PART 3: ORDER MELONS
 
+const update_ordermelons = (res) => {
+    if (res.code === 'OK') {
+        $('#order-status').html(`<p>${res.msg}</p>`)
+    }
+    else {
+        $('#order-status').html(`<p><b>${res.msg}</b></p>`)
+        .addClass('order-error')
+    };
+}
+
+
 function orderMelons(evt) {
     evt.preventDefault();
 
-    // TODO: show the result message after your form
-    // TODO: if the result code is ERROR, make it show up in red (see our CSS!)
+    const formData = {
+        'melon_type' : $('#melon-type-field').val(),
+        'qty' : $('#qty-field').val()
+        };
+
+        $.post('/order-melons.json', formData, update_ordermelons)
 }
 
-$("#order-form").on('submit', orderMelons);
+$('#order-form').on('submit', orderMelons);
 
 
